@@ -57,12 +57,30 @@ func (s *Server) setupRoutes() {
 		v1.POST("/library", s.addToLibrary)
 		v1.DELETE("/library/:id", s.removeFromLibrary)
 
+		// Author routes
+		v1.GET("/authors", s.getAuthors)
+		v1.GET("/authors/:id", s.getAuthor)
+		v1.POST("/authors", s.createAuthor)
+		v1.PUT("/authors/:id", s.updateAuthor)
+		v1.DELETE("/authors/:id", s.deleteAuthor)
+
+		// Book routes
+		v1.GET("/books", s.getBooks)
+		v1.GET("/books/:id", s.getBook)
+		v1.POST("/books", s.createBook)
+		v1.PUT("/books/:id", s.updateBook)
+		v1.DELETE("/books/:id", s.deleteBook)
+
 		// Download routes
 		v1.GET("/downloads", s.getDownloads)
+		v1.GET("/downloads/:id", s.getDownload)
 		v1.POST("/downloads", s.startDownload)
+		v1.DELETE("/downloads/:id", s.cancelDownload)
 
 		// Processing routes
 		v1.GET("/processing", s.getProcessingQueue)
+		v1.GET("/processing/:id", s.getProcessingTask)
+		v1.POST("/processing/:id/retry", s.retryProcessingTask)
 
 		// Search routes
 		v1.GET("/search", s.searchAudiobooks)
@@ -84,20 +102,10 @@ func (s *Server) Start() error {
 	return s.router.Run(addr)
 }
 
-// Library handlers are implemented in library.go
-
-func (s *Server) getDownloads(c *gin.Context) {
-	SuccessResponse(c, StatusOK, gin.H{"message": "Downloads endpoint - to be implemented"})
-}
-
-func (s *Server) startDownload(c *gin.Context) {
-	SuccessResponse(c, StatusOK, gin.H{"message": "Start download - to be implemented"})
-}
-
-func (s *Server) getProcessingQueue(c *gin.Context) {
-	SuccessResponse(c, StatusOK, gin.H{"message": "Processing queue - to be implemented"})
-}
-
-func (s *Server) searchAudiobooks(c *gin.Context) {
-	SuccessResponse(c, StatusOK, gin.H{"message": "Search - to be implemented"})
-}
+// All handlers are implemented in separate files:
+// - Library handlers: library.go
+// - Author handlers: authors.go
+// - Book handlers: books.go
+// - Download handlers: downloads.go
+// - Processing handlers: processing.go
+// - Search handler: search.go

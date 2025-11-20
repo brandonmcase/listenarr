@@ -49,13 +49,34 @@
    - [x] `DELETE /api/v1/library/:id` - Remove from library (soft delete) ✅
    - [x] Write tests for all endpoints ✅
 
-2. **Search Endpoints**:
-   - [ ] `GET /api/v1/search` - Search for audiobooks
-   - [ ] Implement basic search (will integrate Jackett later)
+2. **Authors Endpoints** ✅ **COMPLETE**:
+   - [x] `GET /api/v1/authors` - List authors (with pagination, search, sorting) ✅
+   - [x] `GET /api/v1/authors/:id` - Get author with books ✅
+   - [x] `POST /api/v1/authors` - Create author ✅
+   - [x] `PUT /api/v1/authors/:id` - Update author ✅
+   - [x] `DELETE /api/v1/authors/:id` - Delete author ✅
 
-3. **Download Endpoints**:
-   - [ ] `GET /api/v1/downloads` - List downloads
-   - [ ] `POST /api/v1/downloads` - Start download (placeholder for now)
+3. **Books Endpoints** ✅ **COMPLETE**:
+   - [x] `GET /api/v1/books` - List books (with pagination, filtering, sorting) ✅
+   - [x] `GET /api/v1/books/:id` - Get book with full details ✅
+   - [x] `POST /api/v1/books` - Create book ✅
+   - [x] `PUT /api/v1/books/:id` - Update book ✅
+   - [x] `DELETE /api/v1/books/:id` - Delete book ✅
+
+4. **Search Endpoints** ✅ **COMPLETE**:
+   - [x] `GET /api/v1/search` - Search for audiobooks (basic implementation, searches books and authors) ✅
+   - [ ] Integrate with Jackett for actual torrent search (future)
+
+5. **Download Endpoints** ✅ **COMPLETE**:
+   - [x] `GET /api/v1/downloads` - List downloads (with pagination, filtering, sorting) ✅
+   - [x] `GET /api/v1/downloads/:id` - Get single download ✅
+   - [x] `POST /api/v1/downloads` - Start download ✅
+   - [x] `DELETE /api/v1/downloads/:id` - Cancel download ✅
+
+6. **Processing Endpoints** ✅ **COMPLETE**:
+   - [x] `GET /api/v1/processing` - Get processing queue (with pagination, filtering) ✅
+   - [x] `GET /api/v1/processing/:id` - Get single processing task ✅
+   - [x] `POST /api/v1/processing/:id/retry` - Retry failed processing task ✅
 
 **Estimated Time**: 4-6 hours
 
@@ -64,12 +85,12 @@
 **Why**: Core functionality - need to download audiobooks.
 
 **Tasks:**
-- [ ] Create `pkg/qbit/client.go` - qBittorrent API client
-- [ ] Implement authentication
-- [ ] Implement: add torrent, get status, monitor progress
-- [ ] Create download service in `internal/services/download/`
-- [ ] Write tests (with mocks)
-- [ ] Integrate with download endpoints
+- [x] Create `pkg/qbit/client.go` - qBittorrent API client ✅
+- [x] Implement authentication ✅
+- [x] Implement: add torrent, get status, monitor progress ✅
+- [x] Create download service in `internal/services/download/` ✅
+- [x] Write tests (with mocks) ✅
+- [ ] Integrate with download endpoints (partial - service created, needs wiring)
 
 **Estimated Time**: 4-6 hours
 
@@ -78,12 +99,12 @@
 **Why**: Need to search for audiobooks.
 
 **Tasks:**
-- [ ] Create `pkg/jackett/client.go` - Jackett API client
-- [ ] Implement search functionality
-- [ ] Parse and filter results
-- [ ] Create search service in `internal/services/search/`
-- [ ] Write tests
-- [ ] Integrate with search endpoints
+- [x] Create `pkg/jackett/client.go` - Jackett API client ✅
+- [x] Implement search functionality ✅
+- [x] Parse and filter results ✅
+- [x] Create search service in `internal/services/search/` ✅
+- [x] Write tests ✅
+- [ ] Integrate with search endpoints (partial - service created, needs wiring)
 
 **Estimated Time**: 3-4 hours
 

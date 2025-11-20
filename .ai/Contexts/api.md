@@ -73,12 +73,16 @@ See `auth.md` for detailed authentication documentation.
 - `POST /api/v1/library` - Add book to library (creates Author, Book, Series if needed) ✅
 - `DELETE /api/v1/library/:id` - Remove from library (soft delete) ✅
 
-### Placeholder Endpoints
+### Implemented Endpoints (Continued)
 
-- `GET /api/v1/downloads` - List downloads
-- `POST /api/v1/downloads` - Start download
-- `GET /api/v1/processing` - Get processing queue
-- `GET /api/v1/search` - Search audiobooks
+- `GET /api/v1/downloads` - List downloads (with pagination, filtering, sorting) ✅
+- `GET /api/v1/downloads/:id` - Get single download with details ✅
+- `POST /api/v1/downloads` - Start download ✅
+- `DELETE /api/v1/downloads/:id` - Cancel download ✅
+- `GET /api/v1/processing` - Get processing queue (with pagination, filtering) ✅
+- `GET /api/v1/processing/:id` - Get single processing task ✅
+- `POST /api/v1/processing/:id/retry` - Retry failed processing task ✅
+- `GET /api/v1/search` - Search audiobooks (basic implementation, searches books and authors) ✅
 
 ### Planned Endpoints
 
@@ -89,33 +93,34 @@ See `auth.md` for detailed authentication documentation.
 - `PUT /api/v1/library/:id` - Update library item (planned)
 - `DELETE /api/v1/library/:id` - Remove from library (soft delete) ✅
 
-#### Authors
-- `GET /api/v1/authors` - List authors
-- `GET /api/v1/authors/:id` - Get author with books
-- `POST /api/v1/authors` - Create author
-- `PUT /api/v1/authors/:id` - Update author
-- `DELETE /api/v1/authors/:id` - Delete author
+#### Authors ✅
+- `GET /api/v1/authors` - List authors (with pagination, search, sorting) ✅
+- `GET /api/v1/authors/:id` - Get author with books ✅
+- `POST /api/v1/authors` - Create author ✅
+- `PUT /api/v1/authors/:id` - Update author ✅
+- `DELETE /api/v1/authors/:id` - Delete author (soft delete, prevents if has books) ✅
 
-#### Books
-- `GET /api/v1/books` - List books
-- `GET /api/v1/books/:id` - Get book with full details
-- `POST /api/v1/books` - Create book
-- `PUT /api/v1/books/:id` - Update book
-- `DELETE /api/v1/books/:id` - Delete book
+#### Books ✅
+- `GET /api/v1/books` - List books (with pagination, filtering, sorting) ✅
+- `GET /api/v1/books/:id` - Get book with full details ✅
+- `POST /api/v1/books` - Create book ✅
+- `PUT /api/v1/books/:id` - Update book ✅
+- `DELETE /api/v1/books/:id` - Delete book (soft delete, prevents if has library items) ✅
 
-#### Downloads
-- `GET /api/v1/downloads` - List downloads (with filtering by status)
-- `GET /api/v1/downloads/:id` - Get download details
-- `POST /api/v1/downloads` - Start download
-- `DELETE /api/v1/downloads/:id` - Cancel download
+#### Downloads ✅
+- `GET /api/v1/downloads` - List downloads (with filtering by status, pagination, sorting) ✅
+- `GET /api/v1/downloads/:id` - Get download details ✅
+- `POST /api/v1/downloads` - Start download ✅
+- `DELETE /api/v1/downloads/:id` - Cancel download ✅
 
-#### Processing
-- `GET /api/v1/processing` - Get processing queue
-- `GET /api/v1/processing/:id` - Get processing task details
-- `POST /api/v1/processing/:id/retry` - Retry failed processing
+#### Processing ✅
+- `GET /api/v1/processing` - Get processing queue (with pagination, filtering) ✅
+- `GET /api/v1/processing/:id` - Get processing task details ✅
+- `POST /api/v1/processing/:id/retry` - Retry failed processing ✅
 
-#### Search
-- `GET /api/v1/search` - Search for audiobooks (will integrate with Jackett)
+#### Search ✅
+- `GET /api/v1/search` - Search for audiobooks (basic implementation, searches books and authors) ✅
+- TODO: Integrate with Jackett for actual torrent search
 
 ## Error Handling
 
@@ -234,8 +239,13 @@ func ErrorResponse(c *gin.Context, statusCode int, err error) {
 - [x] HTTP status code constants ✅
 - [x] Pagination helpers ✅
 - [x] Library endpoints implementation ✅
+- [x] Authors endpoints implementation ✅
+- [x] Books endpoints implementation ✅
+- [x] Downloads endpoints implementation ✅
+- [x] Processing endpoints implementation ✅
+- [x] Search endpoint implementation (basic) ✅
 - [x] Request validation (Gin binding) ✅
-- [ ] Authors endpoints
-- [ ] Books endpoints
+- [ ] qBittorrent integration (for actual downloads)
+- [ ] Jackett integration (for torrent search)
 - [ ] API documentation (Swagger)
 

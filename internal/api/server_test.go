@@ -107,12 +107,19 @@ func TestGetProcessingQueue_RequiresAuth(t *testing.T) {
 func TestSearchAudiobooks_RequiresAuth(t *testing.T) {
 	server, apiKey := setupTestServer(t)
 
-	req, _ := http.NewRequest("GET", "/api/v1/search", nil)
-	req.Header.Set("X-API-Key", apiKey)
+	// Test without API key
+	req, _ := http.NewRequest("GET", "/api/v1/search?q=test", nil)
 	w := httptest.NewRecorder()
 	server.router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusUnauthorized, w.Code)
 
-	assert.Equal(t, http.StatusOK, w.Code)
+	// Test with API key (will return 200 if query provided, 400 if missing)
+	req, _ = http.NewRequest("GET", "/api/v1/search?q=test", nil)
+	req.Header.Set("X-API-Key", apiKey)
+	w = httptest.NewRecorder()
+	server.router.ServeHTTP(w, req)
+	// Should return 200 (success) or 400 (bad request), not 401
+	assert.Contains(t, []int{http.StatusOK, http.StatusBadRequest}, w.Code)
 }
 
 func TestAddToLibrary_RequiresAuth(t *testing.T) {
@@ -154,10 +161,17 @@ func TestRemoveFromLibrary_RequiresAuth(t *testing.T) {
 func TestStartDownload_RequiresAuth(t *testing.T) {
 	server, apiKey := setupTestServer(t)
 
+	// Test without API key
 	req, _ := http.NewRequest("POST", "/api/v1/downloads", nil)
-	req.Header.Set("X-API-Key", apiKey)
 	w := httptest.NewRecorder()
 	server.router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusUnauthorized, w.Code)
 
-	assert.Equal(t, http.StatusOK, w.Code)
+	// Test with API key (will return 422 validation error or 201 created, not 200)
+	req, _ = http.NewRequest("POST", "/api/v1/downloads", nil)
+	req.Header.Set("X-API-Key", apiKey)
+	w = httptest.NewRecorder()
+	server.router.ServeHTTP(w, req)
+	// Should return 422 (validation error) or 201 (created), not 200
+	assert.Contains(t, []int{http.StatusUnprocessableEntity, http.StatusCreated}, w.Code)
 }
