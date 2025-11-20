@@ -18,4 +18,3 @@ func GenerateSecureAPIKey() (string, error) {
 	apiKey := base64.URLEncoding.EncodeToString(bytes)
 	return apiKey, nil
 }
-

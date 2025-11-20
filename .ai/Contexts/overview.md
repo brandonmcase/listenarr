@@ -16,6 +16,7 @@ This document outlines the main areas of the codebase and maps contexts to corre
 - **Language Comparison** (`../LANGUAGE_COMPARISON.md`): Detailed comparison of programming language options
 - **Go** (`go.md`): Go implementation details, project structure, and best practices
 - **Auth** (`auth.md`): Authentication system (API key authentication)
+- **Database** (`database.md`): Database models, relationships, and schema
 - **Testing** (`testing.md`): Testing standards, requirements, and best practices
 - **Docker** (`docker.md`): Docker containerization architecture and configuration
 - **m4b-tool** (`m4b-tool.md`): m4b-tool installation methods, dependencies, and Docker integration

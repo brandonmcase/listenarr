@@ -19,6 +19,7 @@ func EnsureAPIKey(cfg *Config) error {
 
 	// If API key is already set, validate it
 	if cfg.Auth.APIKey != "" {
+		// Only validate if it's not empty - empty means we should generate
 		if !auth.ValidateAPIKeyFormat(cfg.Auth.APIKey) {
 			return fmt.Errorf("invalid API key format in config")
 		}
@@ -52,4 +53,3 @@ func EnsureAPIKey(cfg *Config) error {
 
 	return nil
 }
-

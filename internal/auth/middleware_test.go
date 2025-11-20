@@ -98,17 +98,19 @@ func TestAPIKeyMiddleware_HealthCheckBypass(t *testing.T) {
 
 func TestValidateAPIKeyFormat(t *testing.T) {
 	tests := []struct {
-		name    string
-		apiKey  string
-		want    bool
+		name   string
+		apiKey string
+		want   bool
 	}{
 		{"valid key", "abcdefghijklmnop", true},
-		{"valid key with numbers", "abc123DEF456", true},
-		{"valid key with dashes", "abc-def-ghi-jkl", true},
-		{"valid key with underscores", "abc_def_ghi_jkl", true},
+		{"valid key with numbers", "abc123DEF4567890", true}, // 16 chars
+		{"valid key with dashes", "abc-def-ghi-jkl-mn", true}, // 20 chars
+		{"valid key with underscores", "abc_def_ghi_jkl_mn", true}, // 21 chars
+		{"valid base64 key", "dGVzdC1rZXktZm9yLWJhc2U2NC1lbmNvZGluZw==", true}, // base64 can have = and /
+		{"valid base64 with slash", "dGVzdC9rZXkvd2l0aC9zbGFzaA==", true},
 		{"too short", "short", false},
 		{"empty", "", false},
-		{"invalid character", "abc@def", false},
+		{"invalid character", "abcdefghijklmnop@", false},
 		{"valid long key", "abcdefghijklmnopqrstuvwxyz123456", true},
 	}
 
@@ -131,4 +133,3 @@ func TestGenerateSecureAPIKey(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotEqual(t, key1, key2, "Generated keys should be unique")
 }
-

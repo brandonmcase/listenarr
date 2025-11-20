@@ -10,14 +10,14 @@ import (
 
 // Config holds all configuration for the application
 type Config struct {
-	Server    ServerConfig    `mapstructure:"server"`
-	Database  DatabaseConfig  `mapstructure:"database"`
-	Auth      AuthConfig      `mapstructure:"auth"`
+	Server      ServerConfig      `mapstructure:"server"`
+	Database    DatabaseConfig    `mapstructure:"database"`
+	Auth        AuthConfig        `mapstructure:"auth"`
 	QBittorrent QBittorrentConfig `mapstructure:"qbittorrent"`
-	Jackett   JackettConfig   `mapstructure:"jackett"`
-	Plex      PlexConfig      `mapstructure:"plex"`
-	Library   LibraryConfig   `mapstructure:"library"`
-	Processing ProcessingConfig `mapstructure:"processing"`
+	Jackett     JackettConfig     `mapstructure:"jackett"`
+	Plex        PlexConfig        `mapstructure:"plex"`
+	Library     LibraryConfig     `mapstructure:"library"`
+	Processing  ProcessingConfig  `mapstructure:"processing"`
 }
 
 // ServerConfig holds server configuration
@@ -33,7 +33,7 @@ type DatabaseConfig struct {
 
 // AuthConfig holds authentication configuration
 type AuthConfig struct {
-	APIKey string `mapstructure:"api_key"`
+	APIKey  string `mapstructure:"api_key"`
 	Enabled bool   `mapstructure:"enabled"`
 }
 
@@ -46,7 +46,7 @@ type QBittorrentConfig struct {
 
 // JackettConfig holds Jackett configuration
 type JackettConfig struct {
-	URL   string `mapstructure:"url"`
+	URL    string `mapstructure:"url"`
 	APIKey string `mapstructure:"api_key"`
 }
 
@@ -70,7 +70,7 @@ type ProcessingConfig struct {
 func Load() (*Config, error) {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
-	
+
 	// Set default config path
 	configPath := os.Getenv("CONFIG_PATH")
 	if configPath == "" {
@@ -105,7 +105,8 @@ func Load() (*Config, error) {
 	}
 
 	// Ensure API key exists if auth is enabled
-	if cfg.Auth.Enabled {
+	// Only generate if not explicitly set (empty string means generate)
+	if cfg.Auth.Enabled && cfg.Auth.APIKey == "" {
 		if err := EnsureAPIKey(&cfg); err != nil {
 			return nil, fmt.Errorf("error ensuring API key: %w", err)
 		}
@@ -144,4 +145,3 @@ func setDefaults() {
 	}
 	viper.SetDefault("processing.temp_path", processingPath)
 }
-

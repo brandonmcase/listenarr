@@ -6,9 +6,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	
-	"github.com/listenarr/listenarr/internal/config"
+
 	"github.com/listenarr/listenarr/internal/auth"
+	"github.com/listenarr/listenarr/internal/config"
 )
 
 // Server represents the API server
@@ -71,7 +71,7 @@ func (s *Server) setupRoutes() {
 // healthCheck returns the health status of the API
 func (s *Server) healthCheck(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"status": "healthy",
+		"status":  "healthy",
 		"service": "listenarr",
 	})
 }
@@ -110,4 +110,3 @@ func (s *Server) getProcessingQueue(c *gin.Context) {
 func (s *Server) searchAudiobooks(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Search - to be implemented"})
 }
-

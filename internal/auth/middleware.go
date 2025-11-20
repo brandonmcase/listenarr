@@ -2,7 +2,6 @@ package auth
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -54,15 +53,15 @@ func ValidateAPIKeyFormat(apiKey string) bool {
 	if len(apiKey) < 16 {
 		return false
 	}
-	// Check for valid characters (alphanumeric and some special chars)
+	// Check for valid characters (alphanumeric and base64-safe chars)
+	// Base64 URL-safe encoding uses: A-Z, a-z, 0-9, -, _, =, /
 	for _, char := range apiKey {
 		if !((char >= 'a' && char <= 'z') ||
 			(char >= 'A' && char <= 'Z') ||
 			(char >= '0' && char <= '9') ||
-			char == '-' || char == '_') {
+			char == '-' || char == '_' || char == '=' || char == '/') {
 			return false
 		}
 	}
 	return true
 }
-

@@ -133,4 +133,3 @@ func TestStartDownload_RequiresAuth(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 }
-

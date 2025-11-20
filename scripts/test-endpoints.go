@@ -18,14 +18,14 @@ var (
 )
 
 type TestResult struct {
-	Name        string
-	Method      string
-	Endpoint    string
-	Status      string
-	StatusCode  int
-	Expected    int
-	Message     string
-	Error       error
+	Name       string
+	Method     string
+	Endpoint   string
+	Status     string
+	StatusCode int
+	Expected   int
+	Message    string
+	Error      error
 }
 
 func main() {
@@ -261,4 +261,3 @@ func min(a, b int) int {
 	}
 	return b
 }
-

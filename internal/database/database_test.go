@@ -52,4 +52,3 @@ func TestInitialize_CreatesFile(t *testing.T) {
 	_, err = os.Stat(testDBPath)
 	assert.NoError(t, err, "Database file should be created")
 }
-
