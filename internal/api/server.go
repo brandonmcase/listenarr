@@ -53,6 +53,7 @@ func (s *Server) setupRoutes() {
 	{
 		// Library routes
 		v1.GET("/library", s.getLibrary)
+		v1.GET("/library/:id", s.getLibraryItem)
 		v1.POST("/library", s.addToLibrary)
 		v1.DELETE("/library/:id", s.removeFromLibrary)
 
@@ -70,6 +71,7 @@ func (s *Server) setupRoutes() {
 
 // healthCheck returns the health status of the API
 func (s *Server) healthCheck(c *gin.Context) {
+	// Health check uses simple format (not standard API response format)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  "healthy",
 		"service": "listenarr",
@@ -82,31 +84,20 @@ func (s *Server) Start() error {
 	return s.router.Run(addr)
 }
 
-// Placeholder handlers (to be implemented)
-func (s *Server) getLibrary(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"message": "Library endpoint - to be implemented"})
-}
-
-func (s *Server) addToLibrary(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"message": "Add to library - to be implemented"})
-}
-
-func (s *Server) removeFromLibrary(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"message": "Remove from library - to be implemented"})
-}
+// Library handlers are implemented in library.go
 
 func (s *Server) getDownloads(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"message": "Downloads endpoint - to be implemented"})
+	SuccessResponse(c, StatusOK, gin.H{"message": "Downloads endpoint - to be implemented"})
 }
 
 func (s *Server) startDownload(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"message": "Start download - to be implemented"})
+	SuccessResponse(c, StatusOK, gin.H{"message": "Start download - to be implemented"})
 }
 
 func (s *Server) getProcessingQueue(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"message": "Processing queue - to be implemented"})
+	SuccessResponse(c, StatusOK, gin.H{"message": "Processing queue - to be implemented"})
 }
 
 func (s *Server) searchAudiobooks(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"message": "Search - to be implemented"})
+	SuccessResponse(c, StatusOK, gin.H{"message": "Search - to be implemented"})
 }

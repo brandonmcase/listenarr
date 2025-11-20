@@ -16,7 +16,8 @@ This document outlines the main areas of the codebase and maps contexts to corre
 - **Language Comparison** (`../LANGUAGE_COMPARISON.md`): Detailed comparison of programming language options
 - **Go** (`go.md`): Go implementation details, project structure, and best practices
 - **Auth** (`auth.md`): Authentication system (API key authentication)
-- **Database** (`database.md`): Database models, relationships, and schema
+- **Database** (`database.md`): Database models, relationships, and schema ✅
+- **API** (`api.md`): API endpoints, response format, and error handling
 - **Testing** (`testing.md`): Testing standards, requirements, and best practices
 - **Docker** (`docker.md`): Docker containerization architecture and configuration
 - **m4b-tool** (`m4b-tool.md`): m4b-tool installation methods, dependencies, and Docker integration
@@ -27,9 +28,7 @@ This document outlines the main areas of the codebase and maps contexts to corre
   - `metadata.md`: Metadata fetching and embedding
   - `library.md`: Library organization and management
   - `plex.md`: Plex integration module
-  - `api.md`: API endpoints and routes
   - `ui.md`: User interface components and views
-  - `database.md`: Database schema and models
   - `config.md`: Configuration and environment setup
 
 ## Technology Stack

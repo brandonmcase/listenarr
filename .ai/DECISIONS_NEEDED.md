@@ -12,17 +12,29 @@ This document summarizes the key decisions that need to be made before beginning
   - **Storage**: API key stored in config file, generated on first run
   - **Future**: OAuth support can be added later if needed
 
-### 2. Database Schema
+### 2. Database Schema ✅
 
-- [ ] **Model Relationships**: Finalize relationships between Author, Book, Audiobook, Series
-- [ ] **Migration Strategy**: How to handle schema changes? (Recommendation: Use GORM AutoMigrate for MVP)
-- [ ] **Indexes**: Which fields need indexes? (Recommendation: ISBN, ASIN, Title+Author composite)
+- [x] **Model Relationships**: Finalize relationships between Author, Book, Audiobook, Series ✅
+  - **Decision**: Author → Books (one-to-many), Book → Audiobook (one-to-one), Series → Books (one-to-many), Book → Releases (one-to-many), LibraryItem → Book (many-to-one)
+- [x] **Migration Strategy**: How to handle schema changes? ✅
+  - **Decision**: Use GORM AutoMigrate for MVP, all models auto-migrate on startup
+- [x] **Indexes**: Which fields need indexes? ✅
+  - **Decision**: Implemented indexes on ISBN, ASIN, Title, AuthorID, SeriesID, composite index on (Title, AuthorID), and foreign key indexes
 
-### 3. API Design
+### 3. API Design ✅
 
-- [ ] **Response Format**: Standardize API response structure
-  - Recommendation: `{ success: bool, data?: T, error?: string }`
-- [ ] **Error Handling**: How to structure error responses?
+- [x] **Response Format**: Standardize API response structure ✅
+  - **Decision**: `{ success: bool, data?: T, error?: string, code?: string, details?: object }`
+  - **Implementation**: Response helpers in `internal/api/response.go`
+  - **Status**: Complete
+- [x] **Error Handling**: How to structure error responses? ✅
+  - **Decision**: Custom error types (APIError, ValidationErrors) with error codes and details
+  - **Implementation**: Error helpers in `internal/api/errors.go`
+  - **Status**: Complete
+- [x] **HTTP Status Codes**: Standardized status code constants ✅
+  - **Decision**: Use standard HTTP status codes (200, 201, 204, 400, 401, 404, 409, 422, 500)
+  - **Implementation**: Constants in `internal/api/response.go`
+  - **Status**: Complete
 - [ ] **Pagination**: For library/search endpoints? (Recommendation: Yes, start with limit/offset)
 
 ## Important Decisions (Should Decide Early)

@@ -12,6 +12,7 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/listenarr/listenarr/internal/config"
+	"github.com/listenarr/listenarr/internal/models"
 )
 
 func setupTestServer(t *testing.T) (*Server, string) {
@@ -19,6 +20,19 @@ func setupTestServer(t *testing.T) (*Server, string) {
 
 	// Create test database
 	testDB, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
+	require.NoError(t, err)
+
+	// Migrate models
+	err = testDB.AutoMigrate(
+		&models.Author{},
+		&models.Series{},
+		&models.Book{},
+		&models.Audiobook{},
+		&models.LibraryItem{},
+		&models.Release{},
+		&models.Download{},
+		&models.ProcessingTask{},
+	)
 	require.NoError(t, err)
 
 	// Create test config
@@ -104,23 +118,37 @@ func TestSearchAudiobooks_RequiresAuth(t *testing.T) {
 func TestAddToLibrary_RequiresAuth(t *testing.T) {
 	server, apiKey := setupTestServer(t)
 
+	// Test without API key
 	req, _ := http.NewRequest("POST", "/api/v1/library", nil)
-	req.Header.Set("X-API-Key", apiKey)
 	w := httptest.NewRecorder()
 	server.router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusUnauthorized, w.Code)
 
-	assert.Equal(t, http.StatusOK, w.Code)
+	// Test with API key (will fail validation but auth works)
+	req, _ = http.NewRequest("POST", "/api/v1/library", nil)
+	req.Header.Set("X-API-Key", apiKey)
+	w = httptest.NewRecorder()
+	server.router.ServeHTTP(w, req)
+	// Should return 422 (validation error) or 201 (success), not 200
+	assert.Contains(t, []int{http.StatusUnprocessableEntity, http.StatusCreated}, w.Code)
 }
 
 func TestRemoveFromLibrary_RequiresAuth(t *testing.T) {
 	server, apiKey := setupTestServer(t)
 
+	// Test without API key
 	req, _ := http.NewRequest("DELETE", "/api/v1/library/123", nil)
-	req.Header.Set("X-API-Key", apiKey)
 	w := httptest.NewRecorder()
 	server.router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusUnauthorized, w.Code)
 
-	assert.Equal(t, http.StatusOK, w.Code)
+	// Test with API key (will return 404 since item doesn't exist, but auth works)
+	req, _ = http.NewRequest("DELETE", "/api/v1/library/123", nil)
+	req.Header.Set("X-API-Key", apiKey)
+	w = httptest.NewRecorder()
+	server.router.ServeHTTP(w, req)
+	// Should return 404 (not found) or 204 (success), not 200
+	assert.Contains(t, []int{http.StatusNotFound, http.StatusNoContent}, w.Code)
 }
 
 func TestStartDownload_RequiresAuth(t *testing.T) {

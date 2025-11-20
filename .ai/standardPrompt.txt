@@ -1,4 +1,26 @@
 Before you start, fully read and understand /ai/CodingBestPractices.md and ensure your work aligns.
 
-Current TODOs:
+Next read all the *.md files in /.ai to get context.
 
+Start by updating or creating any planning docs.
+
+When done update any docs needed then give recommended next steps
+
+Current TODOs:
+- Implement Library API endpoints
+-- GET /api/v1/library — List library items
+Pagination (page, limit)
+Filtering (status, author_id)
+Sorting (title, added_date)
+Preload relationships (Book, Author, Series)
+-- GET /api/v1/library/:id — Get single library item
+Full details with relationships
+Error handling (404 if not found)
+-- POST /api/v1/library — Add book to library
+Create Book, Author if needed
+Create LibraryItem
+Request validation
+Return created item
+-- DELETE /api/v1/library/:id — Remove from library
+Soft delete or hard delete
+Return 204 No Content
