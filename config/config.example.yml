@@ -1,0 +1,30 @@
+server:
+  host: "0.0.0.0"
+  port: 8686
+
+auth:
+  enabled: true
+  api_key: ""  # Will be auto-generated on first run if empty
+
+database:
+  path: "./config/listenarr.db"
+
+qbittorrent:
+  url: "http://localhost:8080"
+  username: ""
+  password: ""
+
+jackett:
+  url: "http://localhost:9117"
+  api_key: ""
+
+plex:
+  url: "http://localhost:32400"
+  token: ""
+
+library:
+  path: "./library"
+
+processing:
+  temp_path: "./processing"
+

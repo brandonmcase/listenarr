@@ -1,0 +1,4 @@
+Before you start, fully read and understand /ai/CodingBestPractices.md and ensure your work aligns.
+
+Current TODOs:
+

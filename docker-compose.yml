@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  listenarr:
+    build: .
+    container_name: listenarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - UMASK=002
+      - CONFIG_PATH=/config
+      - LIBRARY_PATH=/library
+      - PROCESSING_PATH=/processing
+    volumes:
+      - ./config:/config
+      - ./library:/library
+      - ./downloads:/downloads
+      - ./processing:/processing
+    ports:
+      - "8686:8686"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O-", "http://localhost:8686/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - listenarr-network
+
+networks:
+  listenarr-network:
+    driver: bridge
+
